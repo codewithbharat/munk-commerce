@@ -3,24 +3,35 @@ import axios from "axios";
 
 const ProductPicker = ({ onClose }) => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+
+  // fetch api function
+// crud / curd operation
+  // c - create : POST 
+  // r - read  : GET
+  // u - update : PUT
+  // d - delete : DELETE
+
+  
+  
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://stageapi.monkcommerce.app/task/products/search`,
+        `http://stageapi.monkcommerce.app/task/products/search`, // api endpoint -> url 
         {
           headers: {
             "x-api-key": "shared via email",
           },
         }
       );
-      setProducts((prevProducts) => [...prevProducts, ...response.data]);
+      setProducts(response.data);
       console.log(response);
       setLoading(false);
     } catch (error) {
@@ -38,7 +49,6 @@ const ProductPicker = ({ onClose }) => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setProducts([]);
-    setPage(0);
   };
 
   const handleSelectProduct = (selectedProduct) => {
